@@ -5,7 +5,7 @@ pkg_maintainer="The Habitat Maintainers <humans@habitat.sh>"
 pkg_license=("Apache-2.0")
 pkg_source="https://tomcat.apache.org/tomcat-7.0-doc/appdev/sample/${pkg_name}.war"
 pkg_shasum="89b33caa5bf4cfd235f060c396cb1a5acb2734a1366db325676f48c5f5ed92e5"
-pkg_deps=(core/tomcat8 core/jre8 core/cacerts)
+pkg_deps=(core/tomcat8 core/jre8 core/cacerts core/curl)
 pkg_svc_user="root"
 
 do_unpack() {
