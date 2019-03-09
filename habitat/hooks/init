@@ -1,14 +1,19 @@
-#!/bin/bash -x
+# #!/bin/bash -x
 exec 2>&1
 
 echo "Preparing TOMCAT_HOME..."
-# Move directories that ship in core/tomcate8 to the running service path 
+
+#Move directories that ship in core/tomcate8 to running service variable data is located /var
+#variable will look something like this on disk /hab/svc/sample/var
 cp -a {{pkgPathFor "core/tomcat8"}}/tc {{pkg.svc_var_path}}/
 
-# copy any ware files to running service /tc/webapps 
+#copy any war files at the pkg path from our build phase to the running service /tc/webapps
 cp {{pkg.path}}/*.war {{pkg.svc_var_path}}/tc/webapps
 
-# Following lines are to copy project tomcat configs to run time tomcat8 directory
+# move the server.xml hab generated into the directory tomcat needs
+# svc_config_path variable would looke something like this: /hab/svc/sample/config
+
+# Following lines are to copy project tomcat configs to run time tomcat8 directory where tomcat expects
 for file in $(cd {{pkg.svc_config_path}}; ls -1 *.xml)
 do
   echo "Linking $file"
@@ -18,6 +23,9 @@ done
 
 echo "Done preparing TOMCAT_HOME"
 
-# {{#if bind.database ~}}
-# {{pkgPathFor "core/mongo-tools"}}/bin/mongoimport --drop -d demo -c nationalparks --type json --jsonArray --file {{pkg.path}}/national-parks.json --host={{bind.database.first.sys.ip}} --port={{bind.database.first.cfg.port}}
-# {{/if ~}}
+#set TOMCAT_HOME variable
+#pkgPathFor variable would look something like this: /hab/pkgs/core/tomcat8/8.5.9/20190115215424
+#copy .war & generated server.xml to tomcat directories
+export TOMCAT_HOME="{{pkgPathFor "core/tomcat8"}}/tc"
+cp -fr {{pkg.svc_config_path}}/server.xml $TOMCAT_HOME/conf
+cp {{pkg.path}}/*.war $TOMCAT_HOME/webapps
