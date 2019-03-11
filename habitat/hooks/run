@@ -1,7 +1,8 @@
-# #!/bin/bash
+#!/bin/bash
 exec 2>&1
 
-export JAVA_HOME="{{pkgPathFor "core/jre8"}}"
+#set TOMCAT_HOME to the Habitat managed core/tomcat8
 export TOMCAT_HOME="{{pkgPathFor "core/tomcat8"}}/tc"   
 
+#run tomcat
 exec ${TOMCAT_HOME}/bin/catalina.sh run

@@ -21,5 +21,11 @@ sup-log
 in a browser you should see the sample app
 
 ```
-http://localhost:8080/sample/
+http://localhost:8000/sample/
+```
+
+## to change port edit the sample.toml file to desired config & apply
+
+```
+hab config apply sample.default $(date +%s) sample.toml
 ```
