@@ -1,31 +1,51 @@
 # sample
-This is a example App that downloads a war file and deploys using Habitat. You can also start with source and build your application or you can start with a war file from a URL. 
+This is an example of habitat managed a tomcat application that's downloaded from a URL instead of being built from source. 
 
-To use this example change the origin in the habitat plan to your habitat origin. 
+For more details about the sample app go to:
+https://tomcat.apache.org/tomcat-7.0-doc/appdev/sample/ 
 
-```
-pkg_origin=eric
-```
+## Usage build with your origin
 
-## app from -> https://tomcat.apache.org/tomcat-7.0-doc/appdev/sample/ 
+git clone this repo
+Update the pkg_origin with your origin line 2 of habitat/plan.sh 
+
+```pkg_origin=YOUR_ORIGIN```
+
+Build the habitat plan with your origin:
 
 ```
 hab studio enter 
 build 
+hab svc load YOUR_ORIGIN/sample
+```
+
+## Usage load from my origin
+You can load 
+
+```
 hab svc load eric/sample
 ```
-## to view the start-up log
-```
-sup-log
-```
-in a browser you should see the sample app
+
+## view application & confirm health check
+You can view the application in a web browers
 
 ```
 http://localhost:8000/sample/
 ```
+## Validate health-check
+Health check should show "OK" at the following URL
 
-## to change port edit the sample.toml file to desired config & apply
+```
+http://localhost:9631/services/sample/default/health
+```
+
+## changed configured port from port 8000 by using hab config apply. This will change the port to port 8080, you can also edit the port in the sample.toml file to whatever value you want. 
+
+We use the date fo the configuration version_number
+
 
 ```
 hab config apply sample.default $(date +%s) sample.toml
 ```
+
+Go to the URL for your new port & confirm the health-check still passes. If loading from the studio you'll need to forward the correct ports to the host OS.
