@@ -4,8 +4,5 @@ exec 2>&1
 #set TOMCAT_HOME to the Habitat managed core/tomcat8
 export TOMCAT_HOME="{{pkgPathFor "core/tomcat8"}}/tc"   
 
-#print JAVA_HOME & TOMCAT_HOME variables at start for visibility -not required 
-echo JAVA_HOME is $JAVA_HOME
-echo TOMCAT_HOME is $TOMCAT_HOME
-
+#run tomcat
 exec ${TOMCAT_HOME}/bin/catalina.sh run

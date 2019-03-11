@@ -24,6 +24,8 @@ in a browser you should see the sample app
 http://localhost:8000/sample/
 ```
 
-## to do
-test hab config apply
-add additional config items 
+## to change port edit the sample.toml file to desired config & apply
+
+```
+hab config apply sample.default $(date +%s) sample.toml
+```
