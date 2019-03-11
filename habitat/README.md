@@ -21,5 +21,9 @@ sup-log
 in a browser you should see the sample app
 
 ```
-http://localhost:8080/sample/
+http://localhost:8000/sample/
 ```
+
+## to do
+test hab config apply
+add additional config items 

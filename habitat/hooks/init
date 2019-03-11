@@ -1,31 +1,9 @@
 # #!/bin/bash -x
 exec 2>&1
 
-# works without but can't reconfigure port
-# echo "Preparing TOMCAT_HOME..."
+#create a symbolic link from the generated config file & remove exisiting destination file 
+#pkg.svc_config_path is the location of any templated configuration files for the Habitat service
+ln -vsf {{pkg.svc_config_path}}/server.xml {{pkgPathFor "core/tomcat8"}}/tc/conf/server.xml
 
-# #Move directories that ship in core/tomcate8 to running service variable data is located /var
-# #variable will look something like this on disk /hab/svc/sample/var
-# cp -a {{pkgPathFor "core/tomcat8"}}/tc {{pkg.svc_var_path}}/
-
-# #copy any war files at the pkg path from our build phase to the running service /tc/webapps
-# cp {{pkg.path}}/*.war {{pkg.svc_var_path}}/tc/webapps
-
-# # move the server.xml hab generated into the directory tomcat needs
-# # svc_config_path variable would looke something like this: /hab/svc/sample/config
-
-# # Following lines are to copy project tomcat configs to run time tomcat8 directory where tomcat expects
-# for file in $(cd {{pkg.svc_config_path}}; ls -1 *.xml)
-# do
-#   echo "Linking $file"
-#   target="${file//_//}"
-#   ln -vsf {{pkg.svc_config_path}}/$file {{pkg.svc_var_path}}/tc/$target
-# done
-
-echo "Done preparing TOMCAT_HOME"
-
-#set TOMCAT_HOME variable
-#pkgPathFor variable would look something like this: /hab/pkgs/core/tomcat8/8.5.9/20190115215424
-#copy .war & generated server.xml to tomcat directories
-cp -fr {{pkg.svc_config_path}}/server.xml {{pkgPathFor "core/tomcat8"}}/tc/conf
+#move our .war(s) to core/tomcat's webapp directory. Uses tc directory for tomcat
 cp {{pkg.path}}/*.war {{pkgPathFor "core/tomcat8"}}/tc/webapps
