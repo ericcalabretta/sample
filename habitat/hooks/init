@@ -1,9 +1,14 @@
 # #!/bin/bash -x
-exec 2>&1
 
-#create a symbolic link from the generated config file & remove exisiting destination file 
-#pkg.svc_config_path is the location of any templated configuration files for the Habitat service
-ln -vsf {{pkg.svc_config_path}}/server.xml {{pkgPathFor "core/tomcat8"}}/tc/conf/server.xml
+#copy tomcat directory from core/tomcate to running service variable directory
+#the pkg.svc_var_path variable will look something like this on disk /hab/svc/sample/var
+cp -a {{pkgPathFor "core/tomcat8"}}/tc {{pkg.svc_var_path}}/
 
-#move our .war(s) to core/tomcat's webapp directory. Uses tc directory for tomcat
-cp {{pkg.path}}/*.war {{pkgPathFor "core/tomcat8"}}/tc/webapps
+#Copy the .war we downloaded during the build step to the running service variable directory
+cp {{pkg.path}}/*.war {{pkg.svc_var_path}}/tc/webapps
+
+#create a symbolic link from the generated config file  to the correct tomcat directory 
+#any templates placed in habitat/config will be generated and placed in svc_config_path at run time
+#svc_config_path variable will look something like this on disk/hab/svc/sample/config
+ln -vsf {{pkg.svc_config_path}}/server.xml {{pkg.svc_var_path}}/tc/conf/server.xml
+

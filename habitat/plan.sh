@@ -7,8 +7,6 @@ pkg_source="https://tomcat.apache.org/tomcat-7.0-doc/appdev/sample/${pkg_name}.w
 pkg_shasum="89b33caa5bf4cfd235f060c396cb1a5acb2734a1366db325676f48c5f5ed92e5"
 #sample app needs tomcate and java to run, curl is needed for the health-check hook
 pkg_deps=(core/tomcat8 core/jre8 core/cacerts core/curl)
-#user needs access to write to disk
-pkg_svc_user="root"
 
 #skip unpack step - not needed 
 do_unpack() {
@@ -19,8 +17,8 @@ do_build() {
     return 0
 }
 
-#move war from default path habitat places downloads to the package's directory 
-#the ${pkg_name} variable makes this plan easier to copy for another java/tomcat app 
+#move .war from default path where source archives are downloaded to the package's directory
+#the ${pkg_name} variable makes this plan easier to copy for other java/tomcat applications
 #the ${PREFIX} variable will look something like this on disk /hab/pkgs/eric/sample/0.1.0/20190309013632
 do_install() {
     cp ${HAB_CACHE_SRC_PATH}/${pkg_name}.war ${PREFIX}/

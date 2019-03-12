@@ -1,8 +1,10 @@
 #!/bin/bash
+
+#Redirect stderr to stdout
 exec 2>&1
 
 #set TOMCAT_HOME to the Habitat managed core/tomcat8
-export TOMCAT_HOME="{{pkgPathFor "core/tomcat8"}}/tc"   
+export TOMCAT_HOME="{{pkg.svc_var_path}}/tc"
 
 #run tomcat
 exec ${TOMCAT_HOME}/bin/catalina.sh run
