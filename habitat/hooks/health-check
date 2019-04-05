@@ -1,7 +1,7 @@
 #!/bin/sh
  
 #define default return code as 0
-rc=0
+rc=3
 
 #curl local host - 200 code is "ok" 
 #variable cfg.server.port so port can be dynamic in health check
