@@ -17,6 +17,7 @@ do_build() {
     return 0
 }
 
+#
 #move .war from default path where source archives are downloaded to the package's directory
 #the ${pkg_name} variable makes this plan easier to copy for other java/tomcat applications
 #the ${PREFIX} variable will look something like this on disk /hab/pkgs/eric/sample/0.1.0/20190309013632
